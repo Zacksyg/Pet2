@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Pet - PetHealth</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Cadastro de Pet</h2>
+        <form id="petForm">
+            <div class="mb-3">
+                <label for="petName" class="form-label">Nome do Pet</label>
+                <input type="text" class="form-control" id="petName" name="petName" placeholder="Insira o nome do pet" required>
+            </div>
+            <div class="mb-3">
+                <label for="species" class="form-label">Espécie</label>
+                <input type="text" class="form-control" id="species" name="species" placeholder="Ex: Gato, Cachorro" required>
+            </div>
+            <div class="mb-3">
+                <label for="breed" class="form-label">Raça</label>
+                <input type="text" class="form-control" id="breed" name="breed" placeholder="Raça do pet">
+            </div>
+            <div class="mb-3">
+                <label for="age" class="form-label">Idade</label>
+                <input type="number" class="form-control" id="age" name="age" placeholder="Idade do pet" required>
+            </div>
+            <div class="mb-3">
+                <label for="weight" class="form-label">Peso (kg)</label>
+                <input type="number" class="form-control" id="weight" name="weight" placeholder="Peso do pet" required>
+            </div>
+            <div class="mb-3">
+                <label for="vaccinated" class="form-label">Está vacinado?</label>
+                <select class="form-select" id="vaccinated" name="vaccinated" required>
+                    <option value="">Selecione</option>
+                    <option value="sim">Sim</option>
+                    <option value="não">Não</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="additionalInfo" class="form-label">Informações Adicionais</label>
+                <textarea class="form-control" id="additionalInfo" name="additionalInfo" rows="3" placeholder="Informe qualquer detalhe adicional sobre o pet"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Cadastrar Pet</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+     document.getElementById('petForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const formData = new FormData(this);
+    const data = {};
+    formData.forEach((value, key) => (data[key] = value));
+
+    const token = localStorage.getItem('token'); // Supondo que o token JWT está no localStorage
+
+    fetch('/pets/cadastrar', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(data),
+    })
+
+    .then(response => response.json())
+    .then(result => {
+        alert('Pet cadastrado com sucesso!');
+    })
+    .catch(error => {
+        console.error('Erro ao cadastrar o pet:', error);
+    });
+});
+
+
+        </script>
+        
+</body>
+</html>
