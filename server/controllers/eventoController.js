@@ -5,7 +5,6 @@ exports.cadastrarEvento = async (req, res) => {
     try {
         const { petId, date, time, type } = req.body;
 
-        // Verifica se o pet existe
         const petExists = await PetRepository.findById(petId);
         if (!petExists) {
             return res.status(404).json({ message: 'Pet não encontrado.' });

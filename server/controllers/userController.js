@@ -1,13 +1,14 @@
+// Arquivo: userController.js
 const UserRepository = require('../repositories/userRepository');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs'); // Certifique-se de importar bcrypt
 
 exports.registerUser = async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await UserRepository.createUser({ name, email, password: hashedPassword });
+        // Remover o hashing manual da senha
+        const user = await UserRepository.createUser({ name, email, password });
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
@@ -26,6 +27,7 @@ exports.loginUser = async (req, res) => {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
 
+        // Comparar senha usando bcrypt
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ error: 'Invalid email or password' });

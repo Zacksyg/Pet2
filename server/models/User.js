@@ -1,3 +1,4 @@
+// Arquivo: User.js
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
@@ -17,6 +18,7 @@ const UserSchema = new mongoose.Schema({
     }
 });
 
+// Hook para hash da senha antes de salvar o usuário
 UserSchema.pre('save', async function(next) {
     if (!this.isModified('password')) {
         return next();
