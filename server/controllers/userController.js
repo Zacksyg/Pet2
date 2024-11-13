@@ -1,16 +1,14 @@
-// controllers/userController.js
-const User = require('../models/User');
-const bcrypt = require('bcryptjs'); // Importação correta do bcrypt
+const UserRepository = require('../repositories/userRepository');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 exports.registerUser = async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
-        const user = new User({ name, email, password });
-        await user.save();
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = await UserRepository.createUser({ name, email, password: hashedPassword });
 
-        // Gera o token JWT
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         res.status(201).json({ token });
@@ -23,21 +21,19 @@ exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const user = await User.findOne({ email });
+        const user = await UserRepository.findByEmail(email);
         if (!user) {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
 
-        // Compara a senha fornecida com a senha armazenada
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
 
-        // Gera o token JWT
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id, name: user.name }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        res.json({ token });
+        res.status(200).json({ token, name: user.name });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
