@@ -64,7 +64,6 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
         const data = await res.json();
         if (res.ok) {
             alert('Usuário registrado com sucesso');
-            window.location.href = 'login.html';
         } else {
             alert(data.error || 'Erro ao registrar usuário');
         }
