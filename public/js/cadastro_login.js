@@ -23,7 +23,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    console.log('Dados enviados para login:', { email, password });  // Adicione logs para verificar os dados.
+    console.log('Dados enviados para login:', { email, password });
 
     try {
         const res = await fetch('http://127.0.0.1:5000/api/users/login', {
@@ -44,7 +44,6 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
         console.error('Erro ao fazer login:', error);
     }
 });
-// Arquivo: cadastro_login.js
 
 document.getElementById('register-form').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -52,10 +51,10 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    console.log('Dados enviados:', { name, email, password });  // Verifique se os dados estão corretos.
+    console.log('Dados enviados:', { name, email, password }); 
 
     try {
-        const res = await fetch('http://127.0.0.1:5000/api/users/register', {  // Corrigida a URL para o registro
+        const res = await fetch('http://127.0.0.1:5000/api/users/register', {  
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, email, password }),
@@ -64,6 +63,7 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
         const data = await res.json();
         if (res.ok) {
             alert('Usuário registrado com sucesso');
+            window.location.reload();
         } else {
             alert(data.error || 'Erro ao registrar usuário');
         }

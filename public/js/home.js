@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('logout')?.addEventListener('click', () => {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
-        window.location.href = 'cadastro_login.html';
+        window.location.reload();
     });
 });
 document.getElementById('emailForm').addEventListener('submit', function(event) {
