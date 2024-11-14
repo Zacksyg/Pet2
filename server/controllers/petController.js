@@ -17,7 +17,6 @@ exports.obterDadosPet = async (req, res) => {
             return res.status(404).json({ message: 'Pet não encontrado.' });
         }
 
-        // Verifica se o pet pertence ao usuário autenticado
         if (pet.owner.toString() !== req.user._id.toString()) {
             return res.status(403).json({ message: 'Acesso negado.' });
         }
