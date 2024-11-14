@@ -5,7 +5,7 @@ const path = require('path');
 const userRoutes = require('./routes/userRoutes');
 const petRoutes = require('./routes/petRoutes');
 const eventRoutes = require('./routes/eventRoutes');
-const connectDB = require('./config/db'); // Importe o novo arquivo de conexão
+const connectDB = require('./config/db');
 require('dotenv').config();
 
 const app = express();
