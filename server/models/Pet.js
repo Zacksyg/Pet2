@@ -1,4 +1,3 @@
-// models/Pet.js
 const mongoose = require('mongoose');
 
 const petSchema = new mongoose.Schema({
