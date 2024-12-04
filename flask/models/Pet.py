@@ -12,7 +12,10 @@ class Pet(db.Model):
     vaccinated = db.Column(db.Boolean, nullable=False)
     additional_info = db.Column(db.Text, nullable=True)
     user_id = db.Column(db.String(50), nullable=False)
-    image_url = db.Column(db.String(255), nullable=True)  # Novo campo para a URL da imagem
+    image_url = db.Column(db.String(255), nullable=True)
+
+    vaccines = db.relationship('Vaccine', backref='pet', lazy=True)
+    exams = db.relationship('Exam', backref='pet', lazy=True)
 
     def to_dict(self):
         return {
@@ -25,5 +28,23 @@ class Pet(db.Model):
             "vaccinated": self.vaccinated,
             "additional_info": self.additional_info,
             "user_id": self.user_id,
-            "image_url": self.image_url 
+            "image_url": self.image_url
         }
+
+class Vaccine(db.Model):
+    __tablename__ = 'vaccines'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    time = db.Column(db.Time, nullable=False)  # Novo campo para o horário
+    pet_id = db.Column(db.Integer, db.ForeignKey('pets.id'), nullable=False)
+
+class Exam(db.Model):
+    __tablename__ = 'exams'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    time = db.Column(db.Time, nullable=False)  # Novo campo para o horário
+    pet_id = db.Column(db.Integer, db.ForeignKey('pets.id'), nullable=False)

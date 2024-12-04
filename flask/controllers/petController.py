@@ -28,6 +28,7 @@ class PetController:
             print(f"Erro no controller: {e}")
             raise
 
+    @staticmethod
     def get_pet_by_user_id(user_id):
         try:
             pet = PetRepository.get_pet_by_user_id(user_id)
@@ -75,4 +76,20 @@ class PetController:
             return PetRepository.get_exams_by_pet_id(pet_id)
         except Exception as e:
             print(f"Erro ao buscar exames no controller: {e}")
+            raise
+
+    @staticmethod
+    def add_vaccine(pet_id, data):
+        try:
+            PetRepository.add_vaccine_to_pet(pet_id, data)
+        except Exception as e:
+            print(f"Erro ao adicionar vacina no controller: {e}")
+            raise
+
+    @staticmethod
+    def add_exam(pet_id, data):
+        try:
+            PetRepository.add_exam_to_pet(pet_id, data)
+        except Exception as e:
+            print(f"Erro ao adicionar exame no controller: {e}")
             raise

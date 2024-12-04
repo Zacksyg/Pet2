@@ -30,7 +30,6 @@
         </div>
 
         <div class="flex-1">
-          <!-- Formulário de Upload de Imagem -->
           <form id="uploadImageForm" enctype="multipart/form-data" class="bg-gray-100 p-4 rounded-lg">
             <label for="petImageUpload">Alterar Imagem:</label>
             <input type="file" id="petImageUpload" name="petImage" accept="image/*" class="block mb-2">
@@ -40,7 +39,6 @@
       </div>
     </section>
 
-    <!-- Formulário de Edição -->
     <form id="editForm" class="hidden bg-gray-100 p-4 rounded-lg mt-4">
       <label for="editName">Nome:</label>
       <input type="text" id="editName" name="name" class="block mb-2" />
@@ -52,16 +50,17 @@
       <input type="number" id="editWeight" name="weight" class="block mb-2" />
       <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Salvar Informações</button>
     </form>
+
     <section id="recordsSection" class="mt-4">
       <h2 class="section-title">Histórico do Pet</h2>
-    
+
       <div class="bg-green-200 p-4 rounded-lg mb-4">
         <h3 class="font-bold text-lg">Vacinas</h3>
         <ul id="vaccineList" class="list-disc pl-5">
           <li>Carregando vacinas...</li>
         </ul>
       </div>
-    
+
       <div class="bg-green-200 p-4 rounded-lg">
         <h3 class="font-bold text-lg">Exames</h3>
         <ul id="examList" class="list-disc pl-5">
@@ -69,7 +68,36 @@
         </ul>
       </div>
     </section>
-    
+
+    <section id="addRecordsSection" class="mt-4">
+      <h2 class="section-title">Adicionar Registros</h2>
+
+      <div class="bg-blue-200 p-4 rounded-lg mb-4">
+        <h3 class="font-bold text-lg">Adicionar Vacina</h3>
+        <form id="addVaccineForm">
+          <label for="vaccineName">Nome da Vacina:</label>
+          <input type="text" id="vaccineName" name="name" class="block mb-2" required />
+          <label for="vaccineDate">Data da Vacina:</label>
+          <input type="date" id="vaccineDate" name="date" class="block mb-2" required />
+          <label for="vaccineTime">Horário da Vacina:</label>
+          <input type="time" id="vaccineTime" name="time" class="block mb-2" required />
+          <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Adicionar Vacina</button>
+        </form>
+      </div>
+
+      <div class="bg-blue-200 p-4 rounded-lg">
+        <h3 class="font-bold text-lg">Adicionar Exame</h3>
+        <form id="addExamForm">
+          <label for="examName">Nome do Exame:</label>
+          <input type="text" id="examName" name="name" class="block mb-2" required />
+          <label for="examDate">Data do Exame:</label>
+          <input type="date" id="examDate" name="date" class="block mb-2" required />
+          <label for="examTime">Horário do Exame:</label>
+          <input type="time" id="examTime" name="time" class="block mb-2" required />
+          <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Adicionar Exame</button>
+        </form>
+      </div>
+    </section>
   </div>
   <script src="{{ url_for('static', filename='js/pet.js') }}"></script>
 </body>

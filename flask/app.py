@@ -2,7 +2,7 @@ from flask import Flask
 from extensions import db
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
-from flask_migrate import Migrate  # Importa o Flask-Migrate
+from flask_migrate import Migrate 
 from routes.petRoutes import pet_routes
 from dotenv import load_dotenv
 from sqlalchemy.sql import text
@@ -20,13 +20,11 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 db.init_app(app)
 jwt = JWTManager(app)
 
-# Inicializa o Flask-Migrate
 migrate = Migrate(app, db)
 
-# Registra as rotas
+
 app.register_blueprint(pet_routes)
 
-# Testar a conexão com o banco de dados
 with app.app_context():
     try:
         db.session.execute(text('SELECT 1')) 

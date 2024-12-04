@@ -4,7 +4,6 @@ from controllers.petController import PetController
 from werkzeug.utils import secure_filename  # Para assegurar nomes de arquivos válidos
 import os  # Para manipular caminhos de arquivos
 
-
 pet_routes = Blueprint('pet_routes', __name__)
 
 # Renderiza a página de cadastro de pets
@@ -97,13 +96,11 @@ def editar_pet():
             return jsonify({"error": "Nenhum pet encontrado."}), 404
 
         data = request.get_json()
-
         updated_pet = PetController.update_pet_info(pet.id, data)
         return jsonify({"message": "Informações do pet atualizadas com sucesso.", "pet": updated_pet.to_dict()}), 200
     except Exception as e:
         print(f"Erro ao editar informações do pet: {e}")
         return jsonify({"error": f"Erro ao editar informações do pet: {str(e)}"}), 500
-
 
 @pet_routes.route('/api/pet/vacinas', methods=['GET'])
 @jwt_required()
@@ -120,7 +117,6 @@ def obter_vacinas():
         print(f"Erro ao buscar vacinas: {e}")
         return jsonify({"error": "Erro ao buscar vacinas."}), 500
 
-
 @pet_routes.route('/api/pet/exames', methods=['GET'])
 @jwt_required()
 def obter_exames():
@@ -135,3 +131,37 @@ def obter_exames():
     except Exception as e:
         print(f"Erro ao buscar exames: {e}")
         return jsonify({"error": "Erro ao buscar exames."}), 500
+
+# Nova rota para adicionar vacina
+@pet_routes.route('/api/pet/vacinas', methods=['POST'])
+@jwt_required()
+def adicionar_vacina():
+    try:
+        user_id = get_jwt_identity()
+        pet = PetController.get_pet_by_user_id(user_id)
+        if not pet:
+            return jsonify({"error": "Nenhum pet encontrado."}), 404
+
+        data = request.get_json()
+        PetController.add_vaccine(pet.id, data)
+        return jsonify({"message": "Vacina adicionada com sucesso."}), 201
+    except Exception as e:
+        print(f"Erro ao adicionar vacina: {e}")
+        return jsonify({"error": "Erro ao adicionar vacina."}), 500
+
+# Nova rota para adicionar exame
+@pet_routes.route('/api/pet/exames', methods=['POST'])
+@jwt_required()
+def adicionar_exame():
+    try:
+        user_id = get_jwt_identity()
+        pet = PetController.get_pet_by_user_id(user_id)
+        if not pet:
+            return jsonify({"error": "Nenhum pet encontrado."}), 404
+
+        data = request.get_json()
+        PetController.add_exam(pet.id, data)
+        return jsonify({"message": "Exame adicionado com sucesso."}), 201
+    except Exception as e:
+        print(f"Erro ao adicionar exame: {e}")
+        return jsonify({"error": "Erro ao adicionar exame."}), 500
